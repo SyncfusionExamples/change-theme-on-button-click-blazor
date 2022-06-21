@@ -1,0 +1,43 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+<PageTitle>ChangeTheme</PageTitle>
+
+@using Syncfusion.Blazor.Buttons
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <SfButton IsPrimary="true" Content="@Content" IsToggle="true" @onclick="changeTheme" @ref="ToggleBtnObj"></SfButton>
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code{
+    SfButton ToggleBtnObj;
+
+    public string Content = "Light";
+
+    public void changeTheme()
+    {
+        if(ToggleBtnObj.Content == "Light")
+        {
+            this.Content = "Dark";
+            JS.InvokeAsync<object>("setTheme", "fluent-dark");
+        }
+        else
+        {
+            this.Content = "Light";
+            JS.InvokeAsync<object>("setTheme", "fluent");
+        }
+    }
+}
